@@ -1,0 +1,57 @@
+version: "3.7"
+
+services:
+#  prometheus-python-app:
+#    container_name: python-app
+#    build:
+#      context: ./apps-monitored/python-app/
+#      dockerfile: Dockerfile
+#    network_mode: host
+#    ports:
+#      - 8000:8000
+
+  promotheus-server:
+    image: prom/prometheus
+    container_name: prometheus-server
+    volumes:
+      - type: bind
+        bind:
+          propagation: shared
+        source: ./prometheus-server/promotheus.yml
+        target: /etc/prometheus/prometheus.yml
+    network_mode: host
+#    ports:
+#      - 9090:9090
+
+  grafana:
+    user: "1000"
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - type: volume
+        bind:
+          propagation: shared
+        source: grafana-storage
+        target: /var/lib/grafana
+    network_mode: host
+#    ports:
+#      - 3000:3000
+
+    #   - type: bind
+    #     bind:
+    #       propagation: shared
+    #     source: ./grafana/grafana.ini
+    #     target: /etc/grafana.ini
+    #   - type: bind
+    #     bind:
+    #       propagation: shared
+    #     source: ./grafana/provisioning/dashboards/
+    #     target: /etc/grafana/provisioning/dashboards/
+    #   - type: bind
+    #     bind:
+    #       propagation: shared
+    #     source: ./grafana/provisioning/datasources/
+    #     target: /etc/grafana/provisioning/datasources/
+ 
+volumes:
+  grafana-storage:
