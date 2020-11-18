@@ -9,4 +9,4 @@ rule_files:
 scrape_configs:
   - job_name: prometheus
     static_configs:
-      - targets: ['0.0.0.0:9090', '0.0.0.0:8000']
+      - targets: ['prometheus-node-exporter:9100', 'prometheus-python-app:8000']
